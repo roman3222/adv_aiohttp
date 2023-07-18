@@ -1,0 +1,31 @@
+version: '3.9'
+
+
+services:
+
+  db:
+    image: postgres:14.3-alpine3.15
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DB}
+
+
+  app:
+    build:
+      context: .
+
+    environment:
+      USERNAME: ${PG_USER}
+      PASSWORD: ${PG_PASSWORD}
+      HOST: ${PG_HOST}
+      PORT: 5432
+      DB_NAME: ${PG_DB}
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    volumes:
+      - ./app:/app
