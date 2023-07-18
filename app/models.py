@@ -5,17 +5,17 @@ from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime, func, ForeignKey
 import os
-# from dotenv import load_dotenv
-#
-# load_dotenv()
-#
-# username = os.getenv('PG_USER')
-# password = os.getenv('PG_PASSWORD')
-# host = os.getenv('PG_HOST')
-# port = os.getenv('PG_PORT')
-# db_name = os.getenv('PG_DB')
+from dotenv import load_dotenv
 
-DSN = 'postgresql+asyncpg://postgres:1234lera@127.0.0.1:5431/adv_aio'
+load_dotenv()
+
+user_db = os.getenv('PG_USER')
+password_db = os.getenv('PG_PASSWORD')
+host = os.getenv('PG_HOST')
+port = os.getenv('PG_PORT')
+db_name = os.getenv('PG_DB')
+
+DSN = f'postgresql+asyncpg://{user_db}:{password_db}@{host}:{port}/{db_name}'
 engine = create_async_engine(DSN)
 Base = declarative_base()
 Session = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
